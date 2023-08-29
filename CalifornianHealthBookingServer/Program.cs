@@ -64,14 +64,14 @@ class Program
                 }
             }
         }
-        
+
         // Block the main thread to keep the application running
         var cancellationTokenSource = new CancellationTokenSource();
         await Task.Delay(Timeout.Infinite, cancellationTokenSource.Token);
 
         //return 0;
 
-        
+
     }
 
     static async Task TryStart(WebApplicationBuilder builder, int retryAttempt)
@@ -80,23 +80,20 @@ class Program
 
         Display();
 
-        var cancellationTokenSource = new CancellationTokenSource();
-        await Task.Delay(Timeout.Infinite, cancellationTokenSource.Token);
-        
         void Display()
         {
             var scopeEnv = Environment.GetEnvironmentVariable("ASPNETCORE_SCOPE");
             var input = string.Empty;
-            
+
             var connectionString = "DefaultConnection";
             var connectionStringTest = "TestConnection";
-            
+
             if (scopeEnv == "docker")
             {
                 connectionString = "DockerConnection";
                 connectionStringTest = "DockerConnectionTests";
             }
-            
+
 
             var listener = new RabbitMqController(new ChDbContext(
                     new DbContextOptionsBuilder<ChDbContext>()
@@ -119,12 +116,12 @@ class Program
 
             var hostName = Environment.GetEnvironmentVariable("RABBITMQ_HOST") ?? "localhost";
             Console.WriteLine("Defined host name: " + hostName);
-                
+
             listener.ReceiveBookingMessage(queueList, hostName);
 
             //Disabled for docker
             //InputCommands.Commands();
-                
+
             return;
         }
     }

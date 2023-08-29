@@ -17,7 +17,7 @@ done
 if [[ $FOUND -ne 1 ]]; then
   echo "Container initialization: Error: waited for more than 60 seconds for the server to start. Trying to create the database now..."
 fi
-sleep 10
+sleep 5
 echo "Container initialization: creating the database if needed"
 /opt/mssql/bin/mssql-conf set sqlagent.enabled true
 
