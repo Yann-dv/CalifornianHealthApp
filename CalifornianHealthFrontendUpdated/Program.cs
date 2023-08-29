@@ -69,7 +69,7 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 //app.MapRazorPages();
 
-var retryCount = 3; // Number of times to retry connecting to RabbitMQ
+var retryCount = 6; // Number of times to retry connecting to RabbitMQ
 var retryDelay = TimeSpan.FromSeconds(5); // Delay between each retry attempt
 
 for (int retryAttempt = 1; retryAttempt <= retryCount; retryAttempt++)
