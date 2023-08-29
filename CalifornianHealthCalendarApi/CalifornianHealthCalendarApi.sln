@@ -1,0 +1,21 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalifornianHealthCalendarApi", "CalifornianHealthCalendarApi.csproj", "{3B7BD01A-539C-4B53-ABBF-A29456DA654E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{943B3C74-5A4F-4E0D-A2E0-31A76F680B7A}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3B7BD01A-539C-4B53-ABBF-A29456DA654E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B7BD01A-539C-4B53-ABBF-A29456DA654E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B7BD01A-539C-4B53-ABBF-A29456DA654E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B7BD01A-539C-4B53-ABBF-A29456DA654E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

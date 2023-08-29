@@ -1,0 +1,31 @@
+﻿version: "3.1"
+services:
+  rabbitmq-container:
+    image: rabbitmq:3-management
+    hostname: rabbitmq-container
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - rabbitmq-network
+
+  californianhealthbookingserver:
+    image: californianhealthbookingserver:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - spring_rabbitmq_host=rabbitmq-container
+      - spring_rabbitmq_port=5672
+      - spring_rabbitmq_username=guest
+      - spring_rabbitmq_password=guest
+      - resolute_rabbitmq_publishQueueName=rabbitmq-network-run-request
+      - resolute_rabbitmq_exchange=rabbitmq-network
+    networks:
+      - rabbitmq-network
+
+networks:
+  rabbitmq-network:
+    driver: bridge

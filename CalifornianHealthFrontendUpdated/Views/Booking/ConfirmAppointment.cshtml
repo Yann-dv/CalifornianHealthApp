@@ -1,0 +1,23 @@
+﻿@model Tuple<CalifornianHealthFrontendUpdated.Models.Consultant, CalifornianHealthFrontendUpdated.Models.ConsultantCalendar>
+
+@{
+    ViewBag.Title = "ConfirmAppointment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="appointmentConfirmation">
+    
+@if (TempData["SuccessMessage"] != null)
+{
+    <div style="margin: 1rem; color:darkgreen; text-decoration:underline;">
+        <strong>@TempData["SuccessMessage"]</strong>
+    </div>
+}
+    <h2>Your Appointment is confirmed</h2>
+    <p>Please find related informations belows: </p>
+    <div>
+        <p>Consultant: Dr. @Model.Item1.FName @Model.Item1.LName</p>
+        <p>Date: @Model.Item2.Date.Day-@Model.Item2.Date.Month-@Model.Item2.Date.Year </p>
+    </div>
+    <a href=@Url.Action("Index", "Booking")>Back to Home</a>
+</section>

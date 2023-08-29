@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>aspnet-CalifornianHealthFrontendUpdated-8095F090-9E03-4204-B3C1-77B7FD721C86</UserSecretsId>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.10"/>
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.10"/>
+        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.10"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.10"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.10"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="RabbitMQ.Client" Version="6.5.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="wwwroot\img\" />
+      <_ContentIncludedByDefault Remove="Views\Shared\Booking\Calendar.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\Booking\ConfirmAppointment.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\Booking\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\Appointment\Index.cshtml" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <Reference Include="CalifornianHealthLib">
+        <HintPath>..\CalifornianHealthLib\bin\Debug\net7.0\CalifornianHealthLib.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>

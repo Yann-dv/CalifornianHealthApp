@@ -1,0 +1,8 @@
+﻿services:
+  californianhealthfrontendupdated:
+    image: californianhealthfrontendupdated
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+        - "8080:80/"

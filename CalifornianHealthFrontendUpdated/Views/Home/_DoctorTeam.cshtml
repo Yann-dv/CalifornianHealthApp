@@ -1,0 +1,55 @@
+@model List<CalifornianHealthFrontendUpdated.Models.Consultant>
+
+<!--doctor team-->
+<section id="doctor-team" class="section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="ser-title">Meet Our Doctors!</h2>
+                <hr class="botm-line">
+            </div>
+            @if (Model == null || Model.Count <= 0)
+            {
+                <p>Unable to load consultants list from Api</p>
+                <p>Error message: @ViewBag.StatusCode</p>
+            }
+            else 
+            {
+                foreach (var consultant in Model)
+                {
+                    <div class="col-md-3 col-sm-3 col-xs-6">
+                        <div class="thumbnail">
+                            <a href="@Url.Action("Index", "Booking", new { consultantId = consultant.Id} )" alt="Consultant image" title="Book an appointment with Dr. @consultant.FName">
+
+                                <img src=@($"img/doctor{@consultant.Id}.jpg") alt="Consultant @consultant.Id picture" class="team-img">
+                            </a>
+                            <div class="caption">
+                                <h3>Dr. @consultant.FName @consultant.LName</h3>
+                                <p style="text-decoration: underline">@consultant.Speciality</p>
+                                <ul class="list-inline">
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-facebook"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-twitter"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-google-plus"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            <!--------------------------->
+        </div>
+    </div>
+</section>
+<!--/ doctor team-->

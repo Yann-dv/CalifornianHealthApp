@@ -1,0 +1,19 @@
+version: '3.7'
+services:
+
+  ### Mysql container
+  californian-health-db-container:
+    image: californian-health-db:latest
+    container_name: ch-db-container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: Y
+      SA_USER: sa
+      SA_PASSWORD: Password+123
+      MYSQL_DATABASE: CalifornianHealthDatabase
+      MYSQL_ROOT_HOST: "%"
+      

@@ -1,0 +1,134 @@
+@model CalifornianHealthFrontendUpdated.Models.ConsultantModelList
+    <link rel="stylesheet" type="text/css" href="~/css/style.css">
+
+<section style="margin: 1rem">
+    <label>Select Consultant you wish to make an appointment for</label>
+    @if (Model.ConsultantsList != null && Model.ConsultantsList.Any())
+    {
+        using(@Html.BeginForm("Index", "Booking", FormMethod.Get))
+        {
+            <div class="form-group" style="width: 30%; font-weight: bold">
+                @if(ViewBag.SelectedConsultant == null)
+                {
+                    @Html.DropDownList("consultantId", Model.ConsultantsList, "- Please select a consultant -", new { @class = "form-control", @id = "consultantId" })
+                }
+                else
+                {
+                    @Html.DropDownList("consultantId", Model.ConsultantsList, new { @class = "form-control", @id = "consultantId" })
+                }
+                @Html.ValidationMessage("consultantId")
+            </div>
+            <script>
+                document.addEventListener('change', function() {
+                    let getConsultantId = document.getElementById("consultantId");
+                    if(getConsultantId.value === "") 
+                    {
+                        
+                    }
+                    else 
+                    {
+                        getConsultantId.form.submit();
+                    }
+                });
+            </script>
+        }
+    }
+    else
+    {
+        <div class="form-group">
+            @Html.DropDownListFor(m => m.SelectedConsultantId, new SelectList(Enumerable.Empty<SelectListItem>()), "- Error: Unable to load the consultants list from Api -", new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.SelectedConsultantId)
+        </div>
+    }
+</section>
+
+@if (ViewBag.SelectedConsultant != null)
+{
+    <div>
+        <h3 style="margin: 1rem; text-decoration: underline">Dr. @ViewBag.SelectedConsultant availabilities: </h3>
+    </div>
+    
+}
+@if (TempData["ErrorMessage"] != null)
+ {
+    <div style="margin: 1rem; color:darkred; text-decoration:underline;">
+         <strong>@TempData["ErrorMessage"]</strong>
+    </div>
+ }
+
+@if(Model.ConsultantCalendars != null && !Model.ConsultantCalendars.Select(x => x).Any(x => x.ConsultantId == ViewBag.ConsultantId && x.Available == true))
+{
+    <div style="margin: 1rem; color:darkred; text-decoration:underline;">
+        <strong>We are sorry, but this consultant is not available at the selected date</strong>
+    </div>
+}
+else
+{
+    <section id="consultantCalendar" class="consultantCalendar">
+        <div class="calendarMonth"></div>
+
+        <script>
+    document.addEventListener('DOMContentLoaded', function() 
+    {
+        let monthNames = [
+            "January", "February", "March",
+            "April", "May", "June",
+            "July", "August", "September",
+            "October", "November", "December"
+        ];
+                
+        
+        let today = new Date();
+        let getCurrentMonth = today.getMonth()
+        let getNumberOfDays = new Date(today.getFullYear(), getCurrentMonth + 1, 0).getDate();
+        let getConsultantCalendar = document.querySelector("#consultantCalendar");
+        
+        document.querySelector(".calendarMonth").appendChild(document.createElement("div")).innerText = monthNames[today.getMonth()];
+            
+        for (let i = 1; i < getNumberOfDays + 1; i++)
+        {
+            const currentDay = new Date(today.getFullYear(), getCurrentMonth, i).toLocaleDateString('en-GB', { weekday: 'short' });
+            const dayLink = document.createElement("a");
+            let index = i;
+            if (i < 10)
+            {
+                index = "0" + i;
+            }
+            dayLink.setAttribute("class", "booking-slot");
+            const id = "booking-" + new Date(today.getFullYear(), getCurrentMonth + 1).toISOString().slice(0, 8) + index;
+            dayLink.setAttribute("id", id);
+            dayLink.setAttribute("href", "javascript:void(0);");
+            const day = document.createElement("span");
+            day.innerText = currentDay;
+            const dayNumber = document.createElement("p");
+            dayNumber.innerText = i;
+            dayLink.appendChild(day);
+            dayLink.appendChild(dayNumber);
+            
+            let dayLinkId = dayLink.getAttribute("id").slice(8);
+            
+            @if (Model.ConsultantCalendars != null && Model.ConsultantCalendars.Select(x => x).Any(x => x.ConsultantId == ViewBag.ConsultantId))
+            {
+                foreach (var item in Model.ConsultantCalendars.Select(x => x).Where(x => x.ConsultantId == ViewBag.ConsultantId && x.Available == true))
+                {
+                    <text>
+                        if (dayLinkId === (new Date(@item.Date.Year, @item.Date.Month - 1, @item.Date.Day + 1).toISOString().slice(0, 10)))
+                        {
+                            dayLink.setAttribute("onclick", "ConfirmAppointment('@item.Id', '@item.ConsultantId', '@item.Date.ToString("O")', '@item.Available')");
+                            dayLink.style.backgroundColor = "green";
+                            dayLink.style.color = "white";
+                        }
+                    </text>
+                }
+            }
+           
+            getConsultantCalendar.appendChild(dayLink);
+        }        
+    });
+    
+    function ConfirmAppointment(id, consultantId, bookingDate, available) {
+        window.location.href = "/Booking/ConfirmAppointment?id=" + id + "&consultantId=" + consultantId + "&bookingDate=" + bookingDate + "&available=" + available;
+        }
+    </script>
+    </section>
+}

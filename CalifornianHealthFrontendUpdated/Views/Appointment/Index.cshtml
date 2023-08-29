@@ -1,0 +1,58 @@
+@model List<CalifornianHealthFrontendUpdated.Models.ConsultantCalendar>
+
+@{
+    ViewBag.Title = "My appointments";
+}
+
+<!--service-->
+<section id="service" class="section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <h2 class="ser-title">My appointments</h2>
+                <hr class="botm-line">
+            </div>
+            <div class="col-md-12 col-sm-12">
+                <div class="appointmentsList">
+                    <ul>
+                        @foreach (var apt in @Model.FindAll(a => a.Available == false))
+                        {
+                            <li style="list-style: disc; margin-bottom: 1rem; color: black">
+                                <div class="appointment">
+                                    <div class="appointmentHeader">
+                                        <div class="appointmentDate">Appointment date:
+                                            <span class="appointmentDay">@apt.Date.ToString("O").Replace("T00:00:00.0000000", "") </span>
+                                        </div>
+                                    </div>
+                                    <div class="appointmentBody">
+                                        <div class="appointmentTitle">With Dr
+                                            @switch (apt.ConsultantId)
+                                            {
+                                                case 1:
+                                                    <span class="appointmentTitleText">Jessica Wally</span>
+                                                    break;
+                                                case 2:
+                                                    <span class="appointmentTitleText">Iai Donnas</span>
+                                                    break;
+                                                case 3:
+                                                    <span class="appointmentTitleText">Amanda Denyl</span>
+                                                    break;        
+                                                case 4:
+                                                    <span class="appointmentTitleText">Jason Davis</span>
+                                                    break;    
+                                                default:
+                                                    <span class="appointmentTitleText">Unknown</span>
+                                                    break;
+                                            }
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
