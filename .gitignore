@@ -1,4 +1,7 @@
-/bin
-/obj
+*/bin/*
+*/obj/*
+.idea/
+.docker/
 *.idea/*
 *.docker/*
+!*CalifornianHealthLib/bin/Debug/net7.0/*
