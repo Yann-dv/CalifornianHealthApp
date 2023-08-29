@@ -69,7 +69,11 @@ Or also by using the docker-compose.yml file in the each service folder.
 ## Features
 
 - Frontend can be accessed on https://localhost:44328/
-- Frontend 
+- Frontend can make calls to API to get Consultants calendars and available slots
+- Frontend can send messages to RabbitMq queue to book an appointment
+- The Booking Server can receive messages from RabbitMq queue and book an appointment (update DB)
+- The Booking Server can send messages to RabbitMq queue to confirm an appointment
+- Frontend can receive response message from RabbitMq queue to display confirmation message
 
 ## Contact
 
