@@ -1,0 +1,89 @@
+version: '3.8'
+services:
+
+
+  ### RabbitMQ service
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    container_name: rabbitmq-container
+    environment:
+      RABBITMQ_DEFAULT_USER: "ch_queue_user"
+      RABBITMQ_DEFAULT_PASS: "ch_pwd_123"
+    ports:
+      - "5671:5671" # AMQP 1.0
+      - "5672:5672"  # RabbitMQ default port
+      - "15672:15672"  # RabbitMQ management UI port
+    networks:
+      - ch-network
+
+  ### Booking Server container
+  californianhealthbookingserver:
+    image: californianhealthbookingserver
+    container_name: ch-booking-server-container
+    build:
+      context: . # Point to the root directory
+      dockerfile: CalifornianHealthBookingServer/Dockerfile
+    depends_on:
+      - rabbitmq
+    ports:
+      - "5001:80"
+    networks:
+      - ch-network
+    environment:
+      "ASPNETCORE_SCOPE": "docker"
+      "RABBITMQ_HOST": "rabbitmq"  # RabbitMQ service name in the network
+
+  ### Mysql container
+  californian-health-db-container:
+    image: californian-health-db:latest
+    container_name: ch-db-container
+    build:
+      context: . # Point to the root directory
+      dockerfile: CalifornianHealthDockerizedDB/Dockerfile
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: Y
+      SA_USER: sa
+      SA_PASSWORD: Password+123
+      MYSQL_DATABASE: CalifornianHealthDatabase
+      MYSQL_ROOT_HOST: "%"
+    networks:
+      - ch-network
+    
+  ### API container
+  californianhealthcalendarapi:
+    image: californianhealthcalendarapi
+    container_name: ch-api-container
+    build:
+      context: . # Point to the root directory
+      dockerfile: CalifornianHealthCalendarApi/Dockerfile
+    environment:
+      "ASPNETCORE_SCOPE": "docker"
+    ports:
+        - "5000:80"
+    networks:
+      - ch-network
+
+  ### Californian Health Frontend Updated
+  californianhealthfrontendupdated:
+    image: californianhealthfrontendupdated
+    container_name: ch-frontend-container
+    depends_on:
+      - californianhealthbookingserver
+    build:
+      context: . # Point to the root directory
+      dockerfile: CalifornianHealthFrontendUpdated/Dockerfile
+    environment:
+      "ASPNETCORE_SCOPE": "docker"
+      "RABBITMQ_HOST": "rabbitmq"  # RabbitMQ service name in the network
+    ports:
+      - "8080:80"
+    networks:
+      - ch-network
+
+
+networks:
+  ch-network:
+    driver: bridge
+    
