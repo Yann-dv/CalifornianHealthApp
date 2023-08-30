@@ -143,17 +143,25 @@ namespace CalifornianHealthFrontendUpdated.Controllers
                 return RedirectToAction("Index", "Booking", new { consultantId });
             }
             
-            Thread.Sleep(500);
-            if (Task.Run(() => GetSingleConsultantCalendar(consultantId)).Result?.Find(c => c.Date == DateTime.Parse(bookingDate) && c.Available == false) == null)
+            if (bookingResponse != "ch_queue_test_response")
             {
-                TempData["ErrorMessage"] = "Sorry, the booking was unsuccessful. Please try again.";
-                return RedirectToAction("Index", "Booking", new { consultantId });
+                Thread.Sleep(500);
+                if (Task.Run(() => GetSingleConsultantCalendar(consultantId)).Result
+                        ?.Find(c => c.Date == DateTime.Parse(bookingDate) && c.Available == false) == null)
+                {
+                    TempData["ErrorMessage"] = "Sorry, the booking was unsuccessful. Please try again.";
+                    return RedirectToAction("Index", "Booking", new { consultantId });
+                }
+                else
+                {
+                    TempData["SuccessMessage"] = "Booking successful!";
+                    var consultant = await GetConsultantById(consultantId);
+                    return View(Tuple.Create(consultant, bookingDone));
+                    
+                }
             }
-            
 
-            TempData["SuccessMessage"] = "Booking successful!";
-            var consultant = await GetConsultantById(consultantId);
-            return View(Tuple.Create(consultant, bookingDone));
+            return RedirectToAction("Index", "Booking", new { consultantId });
         }
 
         private async Task<bool> SendBooking(int id, int consultantId, DateTime dateBook, bool available, string bookingRequest, string bookingResponse)
