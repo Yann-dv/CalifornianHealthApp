@@ -85,18 +85,17 @@ yh-dev@protonmail.com
 
 ## Functional Documentation:
 
-<strong>Introduction</strong> :
+### Introduction:
 The  Californian Health application allows users to book online appointments with consultants, through a dynamic booking calendar system.
-Use Cases and User Stories:
-The application is a web application. It's composed of 3 pages :
-Home page : it's the page that allows to see the Doctors. It's composed of a list of doctors images. When you click on a doctor, the application will redirect you to the booking page.
 
+### Use Cases and User Stories :
 
-Booking page : it's the page that allows to see the appointments of a doctor. It's composed of a form that allows to select a doctor. When the form is submitted, the application will display the appointments of the selected doctor in the calendar. You can click on an available slot to book an appointment. If the doctor doesn't have any appointment, the application will display a message that says that the doctor doesn't have any appointment.
+On user/client side, the application is a web application, composed of 3 pages :
+Home page : it's the page that allows users to see the Doctors ang have general informations. It's composed of a list of doctors images. When you click on a doctor, the application will redirect you to the booking page.
 
+Booking page : it's the page that allows users to see the available appointments slots of a doctor. It's composed of a form that allows to select a doctor. When the form is submitted, the application will display the appointments of the selected doctor in the calendar. You can click on an available slot to book an appointment. If the doctor doesn't have any appointment, the application will display a message that says that the doctor doesn't have any appointment.
 
 Confirmation page : it's the page that confirms the booking of the appointment. It's composed of the date of the appointment and the name of the doctor.
-
 
 ### User Stories :
 * As a user, I want to see the list of doctors, so that I can choose a doctor :
@@ -126,7 +125,48 @@ As a user, I can go to the “My appointments” page and see the confirmed appo
 
 
 ### System Components:
-Explain the major components of the system, such as frontend, backend services, RabbitMQ, and the database. Create diagrams illustrating the architecture and interactions between these components.
+The application architecture consists of several interconnected Docker services, running within a custom Docker network named "ch-network". Here are the main components of the architecture and their relationships:
+
+1. RabbitMQ service (rabbitmq):
+        Uses the "rabbitmq:3-management" image to run a RabbitMQ server with a management interface.
+        Defines a container name as "rabbitmq-container".
+        Configures environment variables to set the default username and password.
+        Exposes ports 5671 (AMQP 1.0), 5672 (default RabbitMQ port), and 15672 (management UI) to the host.
+        Belongs to the "ch-network" network.
+
+2. Booking Server container (californianhealthbookingserver):
+        Uses the "californianhealthbookingserver" image to run the booking server.
+        Defines a container name as "ch-booking-server-container".
+        Builds the image from a Dockerfile in the "CalifornianHealthBookingServer" directory.
+        Depends on the "rabbitmq" service to start.
+        Exposes port 5001 from the container to port 80 on the host.
+        Configures environment variables, including the RabbitMQ service hostname.
+        Belongs to the "ch-network" network.
+
+3. Mysql container (californian-health-db-container):
+        Uses the "californian-health-db:latest" image to run a MySQL container.
+        Defines a container name as "ch-db-container".
+        Builds the image from a Dockerfile in the "CalifornianHealthDockerizedDB" directory.
+        Exposes port 1433 from the container to port 1433 on the host.
+        Configures environment variables for the MySQL database.
+        Belongs to the "ch-network" network.
+
+4. API container (californianhealthcalendarapi):
+        Uses the "californianhealthcalendarapi" image to run an API.
+        Defines a container name as "ch-api-container".
+        Builds the image from a Dockerfile in the "CalifornianHealthCalendarApi" directory.
+        Configures environment variables for the API.
+        Exposes port 5000 from the container to port 80 on the host.
+        Belongs to the "ch-network" network.
+
+5. Californian Health Frontend Updated (californianhealthfrontendupdated):
+        Uses the "californianhealthfrontendupdated" image to run the updated frontend UI.
+        Defines a container name as "ch-frontend-container".
+        Depends on the "californianhealthbookingserver" service to start.
+        Builds the image from a Dockerfile in the "CalifornianHealthFrontendUpdated" directory.
+        Configures environment variables, including the RabbitMQ service hostname.
+        Exposes port 8080 from the container to port 80 on the host.
+        Belongs to the "ch-network" network.
 
 ### Features:
 Detail each feature of the application, explaining what it does and how it benefits users. For example, describe how patients can browse doctors availability and book appointments, and how doctors can manage their schedules.
