@@ -10,16 +10,22 @@ Console.WriteLine("Defined scope: " + scope);
 builder.Services.AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
 
-if(scope == "docker")
+if (scope == "docker")
 {
     builder.Services.AddDbContext<ChDbContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DockerConnection")));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DockerConnection"), sqlServerOptions =>
+        {
+            sqlServerOptions.EnableRetryOnFailure(maxRetryCount: 3, maxRetryDelay: TimeSpan.FromSeconds(5), errorNumbersToAdd: null);
+        }));
     Console.WriteLine(builder.Configuration.GetConnectionString("DockerConnection"));
 }
 else
 {
     builder.Services.AddDbContext<ChDbContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), sqlServerOptions =>
+        {
+            sqlServerOptions.EnableRetryOnFailure(maxRetryCount: 3, maxRetryDelay: TimeSpan.FromSeconds(5), errorNumbersToAdd: null);
+        }));
     Console.WriteLine(builder.Configuration.GetConnectionString("DefaultConnection"));
 }
 
