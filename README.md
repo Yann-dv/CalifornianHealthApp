@@ -12,7 +12,7 @@ Californian Health is a booking application for patients to book appointments wi
 - [Setup](#setup)
 - [Features](#features)
 - [Contact](#contact)
-- [Complete doc](#documentation)
+- [Complete documentation](#documentation)
 
 ## Technologies
 
@@ -79,6 +79,7 @@ Or also by using the docker-compose.yml file in the each service folder.
 ## Contact
 
 yh-dev@protonmail.com
+<hr />
 
 # Documentation
 
@@ -102,26 +103,26 @@ Confirmation page : it's the page that confirms the booking of the appointment. 
 
     - When I go to the home page, I can see the list of doctors images, when I click on a doctor, I'm redirected to the booking page :
 
-<img src=".\img\doctors.png" width="70%" alt="doctos images list">
+<img src=".\CalifornianHealthFrontendUpdated\img\doctors.png" width="70%" alt="doctos images list">
 
 * As a user, I want to see the appointments of a doctor, so that I can choose an appointment :
     
     - When I go to the booking page, I can see a form that allows to select a doctor, when I submit the form, I can see the appointments of the selected doctor in the calendar :
 
-<img src=".\img\bookings.png" width="70%" alt="booking page">
+<img src=".\CalifornianHealthFrontendUpdated\img\bookings.png" width="70%" alt="booking page">
 
 * As a user, I want to book an appointment, so that I can have an appointment :
 
     - When I go to the booking page, I can see a form that allows to select a doctor, when I submit the form, I can see the appointments of the selected doctor in the calendar, when I click on an available slot, I'm redirected to the confirmation page :
 
-<img src=".\img\confirm_1.png" width="70%" alt="confirmation page">
+<img src=".\CalifornianHealthFrontendUpdated\img\confirm_1.png" width="70%" alt="confirmation page">
 
-<img src=".\img\confirm_2.png" width="70%" alt="confirmation page">
+<img src=".\CalifornianHealthFrontendUpdated\img\confirm_2.png" width="70%" alt="confirmation page">
 
 
 As a user, I can go to the “My appointments” page and see the confirmed appointment I have with some consultants : 
 
-<img src=".\img\myapt.png" width="70%" alt="confirmation page">
+<img src=".\CalifornianHealthFrontendUpdated\img\myapt.png" width="70%" alt="confirmation page">
 
 
 ### System Components:
