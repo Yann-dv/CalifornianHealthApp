@@ -17,7 +17,7 @@ namespace CalifornianHealthFrontendUpdated.CalifornianHealthTests
             for (int i = 0; i < messageCount; i++)
             {
                 //var pushBooking =
-                await new BookingController().ConfirmAppointment(40, 99, "2024-08-27", true, "ch_queue_test_request", "ch_queue_test_response");
+                await new BookingController().ConfirmAppointment(40, 99, "2024-09-27", true, "ch_queue_test_request", "ch_queue_test_response");
                 //Console.WriteLine(pushBooking.Result);
             }
 
