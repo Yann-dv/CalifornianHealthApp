@@ -61,7 +61,7 @@ services:
     environment:
       "ASPNETCORE_SCOPE": "docker"
     ports:
-        - "5000:80"
+        - "600:80"
     networks:
       - ch-network
 
