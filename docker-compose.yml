@@ -78,7 +78,7 @@ services:
       "ASPNETCORE_SCOPE": "docker"
       "RABBITMQ_HOST": "rabbitmq"  # RabbitMQ service name in the network
     ports:
-      - "8080:80"
+      - "8081:80"
     networks:
       - ch-network
 

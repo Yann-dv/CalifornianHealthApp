@@ -11,7 +11,7 @@ namespace CalifornianHealthFrontendUpdated.Controllers
 {
     public class BookingController : Controller
     {
-        private readonly string _calendarApiUri = Environment.GetEnvironmentVariable("ASPNETCORE_SCOPE") == "docker" ? "http://host.docker.internal:5000/api/Consultants" : "https://localhost:44366/api/Consultants";
+        private readonly string _calendarApiUri = Environment.GetEnvironmentVariable("ASPNETCORE_SCOPE") == "docker" ? "http://host.docker.internal:600/api/Consultants" : "https://localhost:44366/api/Consultants";
         
         // GET: Booking
         //the consultant's availability;
