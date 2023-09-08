@@ -169,34 +169,42 @@ The application architecture consists of several interconnected Docker services,
         Belongs to the "ch-network" network.
 
 ### Features:
-Detail each feature of the application, explaining what it does and how it benefits users. For example, describe how patients can browse doctors availability and book appointments, and how doctors can manage their schedules.
+
+- Home page : the home page detail the differents services offered by the application. It allow the user to navigate trought the app, and reach different pages. 
+
+- Booking page : the booking page allow the user to select a doctor and see his appointments. The user can select an appointment and book it.
+
+- Confirmation page : the confirmation page allow the user to see the confirmation of his appointment.
+
+- My appointments page : the my appointments page allow the user to see his appointments.
 
 ### Data Flow:
+TODO
 Create diagrams showing how data flows through the application. Illustrate how data moves from the frontend to backend services, gets processed, and is stored in the database. Include interactions with RabbitMQ for asynchronous messaging.
 
 ### Architecture Overview:
+TODO
 Present a comprehensive architecture diagram that visualizes how microservices communicate with each other, how they interact with external services like RabbitMQ and the database, and how the frontend interfaces with the backend.
-### Integration Points:
-Explain in detail how different microservices and components communicate and exchange data. Describe API endpoints, message queues, and protocols used for communication.
 
-### Deployment:
-Provide step-by-step instructions for deploying the application locally and using Docker. Include any environment variables, configurations, or prerequisites needed for a successful deployment.
 ## Technical Documentation:
 
 ### Technology Stack:
-List and explain the technologies used, including .NET 7, ASP.NET Core, Entity Framework Core, RabbitMQ, SQL Server, and any other relevant tools or libraries. Justify why each technology was chosen.
-
-### Microservices Architecture:
-For each microservice, describe its responsibilities, interactions, and role in the overall system. Include sequence diagrams showing how microservices collaborate to fulfill user requests.
+- .NET 7 to use MVC pattern
+- ASP.NET Core to build the API, who allow the frontend to get datas about the doctors and the appointments from the database
+- Entity Framework Core to interact with the database
+- Docker to containerize the services
+- RabbitMq to send and receive messages between/from the frontend and the booking service
+- SQL Server to store the data
 
 ### Message Queue (RabbitMQ):
-Detail how RabbitMQ is used, explaining concepts like exchanges, queues, and bindings. Provide examples of message payloads and how they are structured.
+RabbitMq is used to send and receive messages between the frontend and the booking service. The frontend send a message to the booking service to book an appointment. The booking service try to update the database with the new appointment. If a concurrency error occurs and the booking service can't update the db because the appointment is already taken, the response message is not sent to the front, and the front will display a message to inform the user that the selected slot is already booked. If the appointment is available, the booking service send a message to the frontend to confirm the appointment.
+By this way, we avoid concurrency errors and we ensure that the appointment is available before confirming it.
 
 ### Database Design:
-Provide an entity-relationship diagram (ERD) showcasing the database schema, table relationships, and data attributes. Explain the purpose of each table and its relationship to other tables.
+TODO: Provide an entity-relationship diagram (ERD) showcasing the database schema, table relationships, and data attributes. Explain the purpose of each table and its relationship to other tables.
 
 ### API Documentation:
-Use tools like Swagger to generate comprehensive API documentation. Document all endpoints, request/response models, headers, query parameters, and authentication/authorization mechanisms.
+<a href="https://github.com/Yann-dv/CalifornianHealthApp/blob/main/CalifornianHealthCalendarApi/README.md">API Documentation</a>
 
 ### Security Measures:
 Explain the security measures in place, such as token-based authentication, role-based access control, and any encryption or data protection techniques used.
@@ -205,6 +213,8 @@ Explain the security measures in place, such as token-based authentication, role
 Detail how errors and exceptions are handled across the application. Describe how error messages are generated, logged, and presented to users.
 
 ## Test Coverage Report:
+
+<img src=".\CalifornianHealthFrontendUpdated\img\testsReport.png" width="70%" alt="tests report">
 
 ### Introduction:
 Explain the purpose of the test coverage report, why it's essential for maintaining code quality, and how it helps identify areas of improvement.
@@ -227,4 +237,3 @@ Include examples of unit tests, integration tests, and possibly end-to-end tests
 ### Future Recommendations:
 Suggest strategies for improving test coverage in areas where coverage is lacking. Explain how to identify and prioritize areas for improvement as the application evolves.
 Remember that each of these sections should be tailored to your specific application and its architecture. It's advisable to collaborate with developers, testers, and other stakeholders to ensure accuracy and completeness in the documentation.
-
