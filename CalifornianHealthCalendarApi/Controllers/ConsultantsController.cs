@@ -16,7 +16,10 @@ namespace CalifornianHealthCalendarApi.Controllers
             _context = context;
         }
 
-        // GET: api/Consultants
+        /// <summary>
+        /// Get a list of all consultants.
+        /// </summary>
+        /// <returns>A list of consultants.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Consultant>>> GetConsultants()
         {
@@ -28,7 +31,11 @@ namespace CalifornianHealthCalendarApi.Controllers
             return await _context.Consultants.ToListAsync();
         }
 
-        // GET: api/Consultants/5
+        /// <summary>
+        /// Get a consultant by their ID.
+        /// </summary>
+        /// <param name="id">The ID of the consultant.</param>
+        /// <returns>The consultant with the specified ID.</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<Consultant>> GetConsultant(int id)
         {
@@ -46,8 +53,12 @@ namespace CalifornianHealthCalendarApi.Controllers
 
             return consultant;
         }
-        
-        // GET: api/ConsultantsAvailabilities/5
+
+        /// <summary>
+        /// Get a list of consultant availabilities by consultant ID.
+        /// </summary>
+        /// <param name="consultantId">The ID of the consultant.</param>
+        /// <returns>A list of consultant availabilities.</returns>
         [HttpGet("{consultantId}/ConsultantAvailabilities")]
         public async Task<IEnumerable<ConsultantCalendar>?> GetConsultantAvailabilities(int consultantId)
         {
@@ -56,7 +67,9 @@ namespace CalifornianHealthCalendarApi.Controllers
                 return null;
             }
             
-            var consultantCalendar = await _context.ConsultantCalendars.Select(c => c).Where(c => c.ConsultantId == consultantId).ToListAsync();
+            var consultantCalendar = await _context.ConsultantCalendars
+                .Where(c => c.ConsultantId == consultantId)
+                .ToListAsync();
 
             return consultantCalendar.Count > 0 ? consultantCalendar : null;
         }
