@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using CalifornianHealthFrontendUpdated.Controllers;
+using CalifornianHealthFrontendUpdated.Services;
 using NUnit.Framework;
 
 namespace CalifornianHealthFrontendUpdated.CalifornianHealthTests
@@ -16,11 +17,9 @@ namespace CalifornianHealthFrontendUpdated.CalifornianHealthTests
             var stopwatch = Stopwatch.StartNew();
             for (int i = 0; i < messageCount; i++)
             {
-                //var pushBooking =
                 await new BookingController().ConfirmAppointment(40, 99, "2024-08-27", true, "ch_queue_test_request", "ch_queue_test_response");
-                //Console.WriteLine(pushBooking.Result);
             }
-
+            
             stopwatch.Stop();
             Console.WriteLine($"Published {messageCount:N0} messages individually in {stopwatch.ElapsedMilliseconds} ms");
         }

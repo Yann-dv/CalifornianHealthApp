@@ -98,7 +98,7 @@ app.Run();
 
 Task ConnectRabbitMqListener()
 {
-//RabbitMqResponseListening
+    //RabbitMqResponseListening
     var hostName = Environment.GetEnvironmentVariable("RABBITMQ_HOST") ?? "localhost";
     Console.WriteLine("Defined host name: " + hostName);
 
