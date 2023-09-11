@@ -178,13 +178,9 @@ The application architecture consists of several interconnected Docker services,
 
 - My appointments page : the my appointments page allow the user to see his appointments.
 
-### Data Flow:
-TODO
-Create diagrams showing how data flows through the application. Illustrate how data moves from the frontend to backend services, gets processed, and is stored in the database. Include interactions with RabbitMQ for asynchronous messaging.
-
 ### Architecture Overview:
-TODO
-Present a comprehensive architecture diagram that visualizes how microservices communicate with each other, how they interact with external services like RabbitMQ and the database, and how the frontend interfaces with the backend.
+<img src=".\CalifornianHealthFrontendUpdated\img\architecture.png" width="70%" alt="confirmation page">
+
 
 ## Technical Documentation:
 
@@ -201,39 +197,45 @@ RabbitMq is used to send and receive messages between the frontend and the booki
 By this way, we avoid concurrency errors and we ensure that the appointment is available before confirming it.
 
 ### Database Design:
-TODO: Provide an entity-relationship diagram (ERD) showcasing the database schema, table relationships, and data attributes. Explain the purpose of each table and its relationship to other tables.
+<img src=".\CalifornianHealthFrontendUpdated\img\erm.png" width="70%" alt="confirmation page">
+
 
 ### API Documentation:
 <a href="https://github.com/Yann-dv/CalifornianHealthApp/blob/main/CalifornianHealthCalendarApi/README.md">API Documentation</a>
 
-### Security Measures:
-Explain the security measures in place, such as token-based authentication, role-based access control, and any encryption or data protection techniques used.
-
 ### Error Handling:
-Detail how errors and exceptions are handled across the application. Describe how error messages are generated, logged, and presented to users.
+If there is any concurrency error while booking, the frontend will display a message to inform the user that the selected slot is already booked. Also, if the API or the booking server is not running, the frontend will display a message to inform the user that the service is not available.
 
 ## Test Coverage Report:
 
 <img src=".\CalifornianHealthFrontendUpdated\img\testsReport.png" width="70%" alt="tests report">
 
 ### Introduction:
-Explain the purpose of the test coverage report, why it's essential for maintaining code quality, and how it helps identify areas of improvement.
+The purpose of the test coverage is to test the API and the booking server. 
 
 ### Test Types:
-Differentiate between various types of tests employed, such as unit tests (testing individual functions or methods), integration tests (testing interactions between components), and end-to-end tests (testing entire user flows).
+The API is tested with unit tests that try to make several api call at the same time. The booking server is tested with unit tests to try a bunch of simultaneous booking tries. The frontend is not tested.
 
 ### Test Frameworks:
-Provide an overview of the testing frameworks used (NUnit, xUnit, etc.), why they were chosen, and how they facilitate writing and executing tests.
-
-### Coverage Metrics:
-Explain coverage metrics like line coverage, branch coverage, and statement coverage. Elaborate on why achieving a certain coverage percentage is important for code maintainability and quality.
+The tests are written with nUnit; 
 
 ### Test Results:
-Present a summary of test results for each component or service, including the total number of tests, number of passing tests, and coverage percentages. Highlight any critical areas with low coverage.
-
-### Code Examples:
-Include examples of unit tests, integration tests, and possibly end-to-end tests. Showcase how these tests are structured, what they're testing, and how they're written.
+The test results are displayed in the test explorer in Visual Studio. The tests are runned with the command : dotnet test.
+They show us that the API and the booking server are working as expected, even with a lot (up to 3000) of simultaneous requests or booking tries.
 
 ### Future Recommendations:
-Suggest strategies for improving test coverage in areas where coverage is lacking. Explain how to identify and prioritize areas for improvement as the application evolves.
-Remember that each of these sections should be tailored to your specific application and its architecture. It's advisable to collaborate with developers, testers, and other stakeholders to ensure accuracy and completeness in the documentation.
+
+- Add a login system to allow users to create an account and book appointments with their account.
+- Add a login system for doctors to allow them to add their availabilities and see their appointments.
+- Add separate interfaces for doctors and patients.
+- Add a system to allow users/doctors to cancel their appointments.
+- Add a system to allow users/doctors to modify their appointments.
+- Add a system to allow users/doctors to see their past appointments.
+- Add a system to allow users/doctors to see their future appointments.
+- Add a system to allow users/doctors to see their appointments history.
+- Use a NoSQL database to store the data instead of a SQL database (MongoDB for example).
+
+
+### Conclusion:
+
+The Californian Health application is a booking application for patients to book appointments with doctors. It is a full-stack application built with .NET7. It was a monolithic application that was broken down into microservices. The application can be deployed on localhost and/or Docker.
