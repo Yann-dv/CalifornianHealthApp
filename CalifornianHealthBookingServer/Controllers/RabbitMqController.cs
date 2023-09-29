@@ -36,13 +36,7 @@ namespace CalifornianHealthBookingServer.Controllers
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     //Console.WriteLine($" [+] TestListener -> Received test booking request: {message}");
                     Console.ForegroundColor = ConsoleColor.Black;
-                    if (await TryUpdateDb(message, responseQueueName, null, _testContext))
-                    {
-                    }
-                    else
-                    {
-                        //Console.WriteLine(" -> Booking request failed to update test db");
-                    }
+                    await TryUpdateDb(message, responseQueueName, null, _testContext);
                 }
                 else
                 {
@@ -80,12 +74,7 @@ namespace CalifornianHealthBookingServer.Controllers
             //App queue
             if (Task.FromResult(ConsultantExists(consultantId, testContext)).Result.IsCompletedSuccessfully)
             {
-                //Console.WriteLine(" ... Consultant found");
-            }
-            else
-            {
-                //Console.WriteLine(" ... Consultant not found");
-                return false;
+                return true;
             }
 
             var consultantCalendar = new List<ConsultantCalendar>();
@@ -113,7 +102,6 @@ namespace CalifornianHealthBookingServer.Controllers
             }
             else
             {
-
                 //Update available to false = booked
                 consultantCalendarDate.Available = false;
 
@@ -176,11 +164,6 @@ namespace CalifornianHealthBookingServer.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    /*if (!ConsultantExists(consultantId, testContext))
-                    {
-                        return false;
-                    }*/
-
                     if (testContext == null) throw;
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
                     Console.WriteLine("Test db non updated -> already booked by previous queue message");
