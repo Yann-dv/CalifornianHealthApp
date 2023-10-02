@@ -76,8 +76,6 @@ class Program
 
     static async Task TryStart(WebApplicationBuilder builder, int retryAttempt)
     {
-        // ... (other configuration code)
-
         Display();
 
         void Display()

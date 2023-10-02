@@ -85,11 +85,7 @@ namespace CalifornianHealthBookingServer.Controllers
             var consultantId = booking.ConsultantId.Value;
 
             //App queue
-            if (Task.FromResult(ConsultantExists(consultantId, testContext)).Result.IsCompletedSuccessfully)
-            {
-                return true;
-            }
-            else
+            if (!Task.FromResult(ConsultantExists(consultantId, testContext)).Result.IsCompletedSuccessfully)
             {
                 return false;
             }
