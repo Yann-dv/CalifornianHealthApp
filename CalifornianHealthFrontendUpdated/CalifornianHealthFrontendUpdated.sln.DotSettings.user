@@ -3,4 +3,17 @@
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CUsers_005Cyhagege_005Csource_005Crepos_005COPENCLASSROOMS_005Cproject_005F8_005CCalifornianHealthFrontendUpdated_005CCalifornianHealthLibUpdated_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CUsers_005Cyhagege_005Csource_005Crepos_005COPENCLASSROOMS_005Cproject_005F8_005CCalifornianHealthFrontendUpdated_005CCalifornianHealthLib_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CUsers_005Cyhagege_005Csource_005Crepos_005COPENCLASSROOMS_005Cproject_005F8_005CCalifornianHealthLib_005Cbin_005CDebug_005CCalifornianHealthLib_002Edll/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CUsers_005Cyhagege_005Csource_005Crepos_005COPENCLASSROOMS_005Cproject_005F8_005CCalifornianHealthLib_005Cbin_005CDebug_005Cnet7_002E0_005CCalifornianHealthLib_002Edll/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CUsers_005Cyhagege_005Csource_005Crepos_005COPENCLASSROOMS_005Cproject_005F8_005CCalifornianHealthLib_005Cbin_005CDebug_005Cnet7_002E0_005CCalifornianHealthLib_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=59accdb6_002D9e00_002D493e_002Da29f_002D9373b60174c3/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CalendarApiTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::2F2AA074-9500-452E-A112-CA46C984CC24::net7.0::CalifornianHealthFrontendUpdated.CalifornianHealthTests.CalendarApiTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=cafaffad_002D2cf5_002D4eff_002D9e03_002D8f147260ae5c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CalendarApiTests #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::2F2AA074-9500-452E-A112-CA46C984CC24::net7.0::CalifornianHealthFrontendUpdated.CalifornianHealthTests.CalendarApiTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	
+	</wpf:ResourceDictionary>
