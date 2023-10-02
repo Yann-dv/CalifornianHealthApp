@@ -23,7 +23,7 @@ namespace CalifornianHealthCalendarApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Consultant>>> GetConsultants()
         {
-            if (_context.Consultants == null)
+            if (!_context.Consultants.Any())
             {
                 return NotFound();
             }
@@ -39,7 +39,8 @@ namespace CalifornianHealthCalendarApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Consultant>> GetConsultant(int id)
         {
-            if (_context.Consultants == null || await _context.Consultants.FindAsync(id) == null)
+            var consultant = await _context.Consultants.FindAsync(id);
+            if (!_context.Consultants.Any() || consultant == null)
             {
                 return NotFound();
             }
@@ -54,7 +55,7 @@ namespace CalifornianHealthCalendarApi.Controllers
         [HttpGet("{consultantId}/ConsultantAvailabilities")]
         public async Task<IEnumerable<ConsultantCalendar>?> GetConsultantAvailabilities(int consultantId)
         {
-            if (_context.ConsultantCalendars == null)
+            if (!_context.ConsultantCalendars.Any())
             {
                 return null;
             }
