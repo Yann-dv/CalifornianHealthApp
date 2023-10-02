@@ -12,16 +12,13 @@ namespace CalifornianHealthFrontendUpdated.Controllers
     public class BookingController : Controller
     {
         private readonly string _calendarApiUri = Environment.GetEnvironmentVariable("ASPNETCORE_SCOPE") == "docker" ? "http://host.docker.internal:600/api/Consultants" : "https://localhost:44366/api/Consultants";
-        
-        // GET: Booking
-        //the consultant's availability;
 
         [HttpGet]
         [ActionName("Index")]
         public async Task<ActionResult> Index(int? consultantId)
         {
             var consultantsList = await GetConsultantModelList();
-            if(consultantId > 0)
+            if (consultantId > 0)
             {
                 consultantsList.ConsultantCalendars = await GetSingleConsultantCalendar(consultantId);
                 ViewBag.Availabilities = consultantsList.ConsultantCalendars;
@@ -29,7 +26,7 @@ namespace CalifornianHealthFrontendUpdated.Controllers
                 ViewBag.SelectedConsultant = consultantsList.Consultants.Find(c => c.Id == consultantId).FName + " " + consultantsList.Consultants.Find(c => c.Id == consultantId).LName;
                 return View(consultantsList);
             }
-            
+
             return View(consultantsList);
         }
 
@@ -68,7 +65,7 @@ namespace CalifornianHealthFrontendUpdated.Controllers
 
             return conList;
         }
-        
+
         [HttpGet]
         private async Task<Consultant> GetConsultantById(int id)
         {
@@ -103,9 +100,9 @@ namespace CalifornianHealthFrontendUpdated.Controllers
         {
             var calendarController = new CalendarController();
             var getConsultantCalendar = await Task.Run(() => calendarController.GetConsultantCalendar(consultantId));
-            
-            var consultantCalendarData = getConsultantCalendar .Value as List<ConsultantCalendar>;
-            
+
+            var consultantCalendarData = getConsultantCalendar.Value as List<ConsultantCalendar>;
+
             if (consultantCalendarData != null)
             {
                 return consultantCalendarData;
@@ -120,11 +117,11 @@ namespace CalifornianHealthFrontendUpdated.Controllers
             {
                 bookingRequest = "ch_queue_booking_request";
             }
-            if(string.IsNullOrWhiteSpace(bookingResponse))
+            if (string.IsNullOrWhiteSpace(bookingResponse))
             {
                 bookingResponse = "ch_queue_booking_response";
             }
-            
+
             var bookingDone = new ConsultantCalendar()
             {
                 Id = id,
@@ -136,13 +133,13 @@ namespace CalifornianHealthFrontendUpdated.Controllers
             //Redirect to the booking page if the booking is unsuccessful
             var checkBookingIsUpdated = Task.Run(() => GetSingleConsultantCalendar(consultantId));
             var sendBookingRequest = await SendBooking(id, consultantId, DateTime.Parse(bookingDate), available, bookingRequest, bookingResponse);
-            
+
             if (!sendBookingRequest || checkBookingIsUpdated.Result == null)
             {
                 TempData["ErrorMessage"] = "Sorry, the booking was unsuccessful. Please try again.";
                 return RedirectToAction("Index", "Booking", new { consultantId });
             }
-            
+
             if (bookingResponse != "ch_queue_test_response")
             {
                 Thread.Sleep(500);
@@ -157,7 +154,7 @@ namespace CalifornianHealthFrontendUpdated.Controllers
                     TempData["SuccessMessage"] = "Booking successful!";
                     var consultant = await GetConsultantById(consultantId);
                     return View(Tuple.Create(consultant, bookingDone));
-                    
+
                 }
             }
 
@@ -184,7 +181,7 @@ namespace CalifornianHealthFrontendUpdated.Controllers
                     Task.Run(() => rabbitMqSender.PublishBookingMessage(sendBooking, bookingRequest, hostName)),
                 };
                 await Task.WhenAll(tasks);
-                
+
                 return true;
             }
             catch (Exception e)

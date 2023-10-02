@@ -20,6 +20,12 @@ namespace CalifornianHealthBookingServer.Controllers
             _testContext = testContext;
         }
 
+        /// <summary>
+        /// Update the database with the booking request.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="requestQueueName"></param>
+        /// <returns></returns>
         protected override async Task<bool> UpdateBookings(string message, string requestQueueName)
         {
             try
@@ -34,7 +40,6 @@ namespace CalifornianHealthBookingServer.Controllers
                 if (requestQueueName == "ch_queue_test_request")
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    //Console.WriteLine($" [+] TestListener -> Received test booking request: {message}");
                     Console.ForegroundColor = ConsoleColor.Black;
                     await TryUpdateDb(message, responseQueueName, null, _testContext);
                 }
@@ -55,6 +60,14 @@ namespace CalifornianHealthBookingServer.Controllers
             }
         }
 
+        /// <summary>
+        /// Try to update the database with the booking request.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="responseQueue"></param>
+        /// <param name="context"></param>
+        /// <param name="testContext"></param>
+        /// <returns></returns>
         private async Task<bool> TryUpdateDb(string message, string responseQueue, ChDbContext? context,
             TestDbContext? testContext)
         {
@@ -75,6 +88,10 @@ namespace CalifornianHealthBookingServer.Controllers
             if (Task.FromResult(ConsultantExists(consultantId, testContext)).Result.IsCompletedSuccessfully)
             {
                 return true;
+            }
+            else
+            {
+                return false;
             }
 
             var consultantCalendar = new List<ConsultantCalendar>();
@@ -97,12 +114,11 @@ namespace CalifornianHealthBookingServer.Controllers
 
             if (consultantCalendarDate == null)
             {
-                //Console.WriteLine(" ... Consultant not available on this date");
                 return false;
             }
             else
             {
-                //Update available to false = booked
+                //Update available set to false = booked
                 consultantCalendarDate.Available = false;
 
                 if (testContext != null)
@@ -113,7 +129,7 @@ namespace CalifornianHealthBookingServer.Controllers
                 {
                     _context.Entry(consultantCalendarDate).State = EntityState.Modified;
                 }
-                
+
 
                 try
                 {
@@ -151,7 +167,7 @@ namespace CalifornianHealthBookingServer.Controllers
                             Date = booking.Date,
                             Available = consultantCalendarDate.Available
                         };
-                        
+
                         rabbitMqPublisher.PublishBookingMessage(query, responseQueue, _hostName);
                     }
                     catch (Exception e)
@@ -173,6 +189,13 @@ namespace CalifornianHealthBookingServer.Controllers
             }
         }
 
+        /// <summary>
+        /// Check if the consultant exists.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="testDbContext"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         private async Task<bool> ConsultantExists(int id, TestDbContext? testDbContext)
         {
             if (testDbContext != null)

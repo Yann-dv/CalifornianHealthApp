@@ -39,18 +39,10 @@ namespace CalifornianHealthCalendarApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Consultant>> GetConsultant(int id)
         {
-            if (_context.Consultants == null)
+            if (_context.Consultants == null || await _context.Consultants.FindAsync(id) == null)
             {
                 return NotFound();
             }
-
-            var consultant = await _context.Consultants.FindAsync(id);
-
-            if (consultant == null)
-            {
-                return NotFound();
-            }
-
             return consultant;
         }
 
@@ -66,7 +58,7 @@ namespace CalifornianHealthCalendarApi.Controllers
             {
                 return null;
             }
-            
+
             var consultantCalendar = await _context.ConsultantCalendars
                 .Where(c => c.ConsultantId == consultantId)
                 .ToListAsync();

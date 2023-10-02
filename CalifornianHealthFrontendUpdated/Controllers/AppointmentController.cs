@@ -15,8 +15,8 @@ namespace CalifornianHealthFrontendUpdated.Controllers
         {
             var appointmentsList = new List<ConsultantCalendar>();
 
-            var consultantIds = 4;
-            for (var i = 0; i < consultantIds; i++)
+            var numberOfConsultants = 4;
+            for (var i = 0; i < numberOfConsultants; i++)
             {
                 var getConsultantCalendar = await Task.Run(() => new CalendarController().GetConsultantCalendar(i + 1));
 
